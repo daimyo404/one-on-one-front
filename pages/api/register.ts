@@ -1,18 +1,18 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+// TODO: 実行時エラーになるのでコメントアウト
+// import { getAnalytics } from "firebase/analytics";
 
 type Data = {
-  name: string;
+  result: boolean;
 };
 
-// export default function hoge(req: NextApiRequest, res: NextApiResponse<Data>) {
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<Data>
+  /* eslint @typescript-eslint/explicit-function-return-type: 0 */
 ) {
-  console.log("👺");
   const { email, password } = req.query;
 
   const firebaseConfig = {
@@ -25,24 +25,18 @@ export default async function handler(
     measurementId: process.env.MEASUREMENT_ID,
   };
 
-  console.log(firebaseConfig);
-
-  // res.status(200).json({ name: "John Doe" });
-  // Initialize Firebase
+  /* eslint @typescript-eslint/no-unused-vars: 0 */
   const app = initializeApp(firebaseConfig);
+  // TODO: 実行時エラーになるのでコメントアウト
   // const analytics = getAnalytics(app);
 
   const auth = getAuth();
 
-  const result = await createUserWithEmailAndPassword(auth, email, password)
+  await createUserWithEmailAndPassword(auth, email, password)
     .then(() => {
-      return true;
+      return res.status(200).json({ result: true });
     })
     .catch(() => {
-      return false;
+      return res.status(500).json({ result: false });
     });
-
-  console.log("result");
-  console.log(result);
-  res.status(200).json({ name: "John Doe" });
 }

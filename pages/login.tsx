@@ -1,56 +1,45 @@
 import { Button, Textarea } from "@chakra-ui/react";
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { useState } from "react";
 
-//TODO: あとで直す
-type Email = string;
-type Password = string;
+export default function Login(): JSX.Element {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-export default function Login() {
-  const [email, setEmail] = useState<Email>("");
-  const [password, setPassword] = useState<Password>("");
-
-  const onClick = async (email: Email, password: Password) => {
+  const onClick = async (email: string, password: string): Promise<void> => {
     const options: AxiosRequestConfig = {
       url: "api/register",
       method: "GET",
-      //   headers: { "X-API-KEY": process.env.NEXT_PUBLIC_API_KEY },
       params: {
-        email: email,
-        password: password,
+        email,
+        password,
       },
     };
 
-    console.log("👺👺");
-
-    const result = await axios(options)
-      //   .then((res: AxiosResponse<ApiResponse>) => {
-      .then((res) => {
-        return res.data;
-      })
+    await axios(options)
+      .then()
       .catch((e: AxiosError) => {
-        console.log(e.message);
-        console.log(e);
+        throw Error(e.message);
       });
-
-    console.log(result);
-    console.log(email);
-    console.log(password);
   };
   return (
     <>
       <Textarea
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="email"
+        placeholder="メールアドレス"
       />
       <Textarea
         onChange={(e) => setPassword(e.target.value)}
-        placeholder="password"
+        placeholder="パスワード"
       />
       <Button
         color={"black"}
-        onClick={() => {
-          onClick(email, password);
+        onClick={(): void => {
+          onClick(email, password)
+            .then()
+            .catch(() => {
+              throw Error();
+            });
         }}
       >
         登録

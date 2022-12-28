@@ -1,9 +1,6 @@
-import { Box, Heading } from "@chakra-ui/layout";
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
+import { Heading } from "@chakra-ui/layout";
 
-export default function Footer() {
+export default function Footer(): JSX.Element {
   return (
     <Heading
       height={"3rem"}

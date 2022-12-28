@@ -1,7 +1,7 @@
-import { Button, Box, Flex, Heading } from "@chakra-ui/react";
+import { Button, Flex, Heading } from "@chakra-ui/react";
 import Link from "next/link";
 
-export default function Header() {
+export default function Header(): JSX.Element {
   return (
     <>
       <Flex
