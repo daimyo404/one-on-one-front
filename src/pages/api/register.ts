@@ -8,9 +8,10 @@ type Data = {
   result: boolean;
 };
 
+// TODO: POSTで受けるようにする
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
+  req: Pick<NextApiRequest, "query">,
+  res: Pick<NextApiResponse<Data>, "status">
   /* eslint @typescript-eslint/explicit-function-return-type: 0 */
 ) {
   const { email, password } = req.query;

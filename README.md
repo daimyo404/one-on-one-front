@@ -7,6 +7,14 @@
 - Next.js
 - ChakraUI
 
+## コンポーネント設計
+
+### ログイン画面
+
+ログイン Template
+
+- カードと elements の組み合わせ
+
 ## ESLint
 
 ### React の import 文が不要となったため設定 OFF
@@ -22,3 +30,8 @@
 - "@typescript-eslint/comma-dangle": "off",
 - "@typescript-eslint/consistent-type-definitions": "off",
 - "@typescript-eslint/member-delimiter-style": "off"
+
+## イラスト
+
+こちらを利用
+https://tyoudoii-illust.com/
