@@ -46,8 +46,6 @@ export default async function handler(
     throw err;
   });
 
-  console.log(usersAddRowDataPacket);
-
   const users = usersAddRowDataPacket.map((data) => {
     //NOTE: RowDataPacket {key: value}から
     //　　　 {key: value}を取得するため、stringify→parseを行う
@@ -55,8 +53,6 @@ export default async function handler(
     const convertedObject = JSON.parse(convertedJson);
     return convertedObject;
   });
-
-  console.log(users);
 
   return res.status(200).json(users);
 }

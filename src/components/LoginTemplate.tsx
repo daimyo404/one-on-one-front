@@ -22,7 +22,7 @@ export default function LoginTemplate(): JSX.Element {
 
   const onClickHandler = async (): Promise<void> => {
     const options: AxiosRequestConfig = {
-      url: "api/register",
+      url: "api/login",
       method: "GET",
       params: {
         email,
