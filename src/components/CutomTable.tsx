@@ -41,7 +41,11 @@ export default function CutomTable(): JSX.Element {
   }, []);
   const hoge = users.map((user) => {
     return (
-      <Tr>
+      <Tr
+        onClick={() => {
+          alert("test");
+        }}
+      >
         <Td>{user.name}</Td>
         <Td>{user.token}</Td>
       </Tr>
@@ -56,16 +60,22 @@ export default function CutomTable(): JSX.Element {
   // </>
   return (
     <>
-      <TableContainer>
+      <TableContainer
+        width={"68rem"}
+        height={"32rem"}
+        marginLeft={"3rem"}
+        backgroundColor={"#4682B4"}
+        borderRadius={"0.5rem"}
+      >
         <Table size="sm">
-          <Thead>
+          <Thead height={"4rem"}>
             <Tr>
               <Th>name</Th>
               <Th>token</Th>
             </Tr>
           </Thead>
-          <Tbody>{hoge}</Tbody>
-          <Tfoot>
+          <Tbody height={"8rem"}>{hoge}</Tbody>
+          <Tfoot height={"4rem"}>
             <Tr>
               <Th>To convert</Th>
               <Th>into</Th>
