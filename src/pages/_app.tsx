@@ -2,16 +2,16 @@ import type { AppProps } from "next/app";
 // NOTE: ResetCSS
 import "ress";
 import { ChakraProvider } from "@chakra-ui/react";
-import { ContextProvider } from "context/Context";
+import { EntireContextProvider } from "context/Context";
 
 export default function App({ Component, pageProps }: AppProps): JSX.Element {
   return (
     <>
-      <ContextProvider>
-        <ChakraProvider>
+      <ChakraProvider>
+        <EntireContextProvider>
           <Component {...pageProps} />
-        </ChakraProvider>
-      </ContextProvider>
+        </EntireContextProvider>
+      </ChakraProvider>
     </>
   );
 }

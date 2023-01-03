@@ -37,13 +37,12 @@ export default async function handler(
 
   const auth = getAuth();
 
-  await signInWithEmailAndPassword(auth, email, password)
-    .then((e: UserCredential) => {
-      console.log(e.user.getIdToken());
-      return res.status(200).json({ result: true });
-    })
-    .catch(() => {
-      console.log("エラー?");
-      return res.status(500).json({ result: false });
-    });
+  auth.onAuthStateChanged((async (user) => {
+      if (user) {
+        setCurrentUser(user);
+        setSignInCheck(true);
+      } else {
+        setSignInCheck(true);
+      })
+
 }

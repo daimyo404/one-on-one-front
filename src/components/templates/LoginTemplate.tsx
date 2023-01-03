@@ -2,27 +2,26 @@ import { Heading } from "@chakra-ui/layout";
 import { Box, CardBody, CardFooter, Image, Stack } from "@chakra-ui/react";
 import { Card } from "@chakra-ui/react";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
-import CustomForm from "./elements/CustomForm";
-import CustomButton from "./elements/CustomButton";
+import CustomForm from "../elements/CustomForm";
+import CustomButton from "../elements/CustomButton";
 import router from "next/router";
 import { useEntireContext } from "context/Context";
 
-export default function RegisterTemplate(): JSX.Element {
+export default function LoginTemplate(): JSX.Element {
   const { email, setEmail } = useEntireContext();
   const { password, setPassword } = useEntireContext();
 
-  const onChangeMailForm = (value) => {
+  const onChangeMailForm = (value: string): void => {
     setEmail(value);
-    console.log("hoge");
   };
 
-  const onChangePasswordForm = (value) => {
+  const onChangePasswordForm = (value: string): void => {
     setPassword(value);
   };
 
   const onClickHandler = async (): Promise<void> => {
     const options: AxiosRequestConfig = {
-      url: "api/register",
+      url: "api/login",
       method: "GET",
       params: {
         email,
@@ -82,7 +81,10 @@ export default function RegisterTemplate(): JSX.Element {
           </CardBody>
 
           <CardFooter>
-            <CustomButton onClickHandler={onClickHandler}></CustomButton>
+            <CustomButton
+              onClickHandler={onClickHandler}
+              label={"ログイン"}
+            ></CustomButton>
           </CardFooter>
         </Stack>
         <Image
@@ -90,7 +92,7 @@ export default function RegisterTemplate(): JSX.Element {
           maxW={{ base: "100%" }}
           src="image/deskwork_check_man_simple.png"
           alt="Deskwork Check Man"
-          padding={"4rem 4rem 4rem 4rem"}
+          padding={"4rem"}
         />
       </Card>
     </Box>
