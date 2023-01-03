@@ -23,8 +23,8 @@ export default function RegisterTemplate(): JSX.Element {
   const onClickHandler = async (): Promise<void> => {
     const options: AxiosRequestConfig = {
       url: "api/register",
-      method: "GET",
-      params: {
+      method: "POST",
+      data: {
         email,
         password,
       },

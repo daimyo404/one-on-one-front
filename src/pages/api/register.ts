@@ -14,7 +14,10 @@ export default async function handler(
   res: Pick<NextApiResponse<Data>, "status">
   /* eslint @typescript-eslint/explicit-function-return-type: 0 */
 ) {
-  const { email, password } = req.query;
+  const { email, password } = req.body;
+
+  console.log("email");
+  console.log(email);
 
   const firebaseConfig = {
     apiKey: process.env.API_KEY,

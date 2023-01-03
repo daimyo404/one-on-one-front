@@ -39,8 +39,6 @@ export default async function handler(
 
   auth.onAuthStateChanged((async (user) => {
       if (user) {
-        setCurrentUser(user);
-        setSignInCheck(true);
       } else {
         setSignInCheck(true);
       })

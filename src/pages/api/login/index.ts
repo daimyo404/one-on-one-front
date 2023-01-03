@@ -14,11 +14,11 @@ type Data = {
 
 // TODO: POSTで受けるようにする
 export default async function handler(
-  req: Pick<NextApiRequest, "query">,
+  req: Pick<NextApiRequest, "body">,
   res: Pick<NextApiResponse<Data>, "status">
   /* eslint @typescript-eslint/explicit-function-return-type: 0 */
 ) {
-  const { email, password } = req.query;
+  const { email, password } = req.body;
 
   const firebaseConfig = {
     apiKey: process.env.API_KEY,
