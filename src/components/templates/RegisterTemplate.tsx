@@ -19,6 +19,7 @@ export default function RegisterTemplate(): JSX.Element {
     setPassword(value);
   };
 
+  // TODO: 処理切り出し
   const onClickHandler = async (): Promise<void> => {
     const options: Pick<AxiosRequestConfig, "url" | "method" | "data"> = {
       url: "api/register",
