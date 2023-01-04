@@ -2,8 +2,8 @@ import { Heading } from "@chakra-ui/layout";
 import { Box, CardBody, CardFooter, Image, Stack } from "@chakra-ui/react";
 import { Card } from "@chakra-ui/react";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
-import CustomForm from "./elements/CustomForm";
-import CustomButton from "./elements/CustomButton";
+import CustomForm from "../elements/CustomForm";
+import CustomButton from "../elements/CustomButton";
 import router from "next/router";
 import { useEntireContext } from "context/Context";
 
@@ -11,17 +11,16 @@ export default function RegisterTemplate(): JSX.Element {
   const { email, setEmail } = useEntireContext();
   const { password, setPassword } = useEntireContext();
 
-  const onChangeMailForm = (value) => {
+  const onChangeMailForm = (value: string): void => {
     setEmail(value);
-    console.log("hoge");
   };
 
-  const onChangePasswordForm = (value) => {
+  const onChangePasswordForm = (value: string): void => {
     setPassword(value);
   };
 
   const onClickHandler = async (): Promise<void> => {
-    const options: AxiosRequestConfig = {
+    const options: Pick<AxiosRequestConfig, "url" | "method" | "data"> = {
       url: "api/register",
       method: "POST",
       data: {
@@ -82,7 +81,11 @@ export default function RegisterTemplate(): JSX.Element {
           </CardBody>
 
           <CardFooter>
-            <CustomButton onClickHandler={onClickHandler}></CustomButton>
+            <CustomButton
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onClickHandler={onClickHandler}
+              label={"登録"}
+            ></CustomButton>
           </CardFooter>
         </Stack>
         <Image

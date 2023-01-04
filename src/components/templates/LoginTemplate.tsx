@@ -20,10 +20,10 @@ export default function LoginTemplate(): JSX.Element {
   };
 
   const onClickHandler = async (): Promise<void> => {
-    const options: AxiosRequestConfig = {
+    const options: Pick<AxiosRequestConfig, "url" | "method" | "data"> = {
       url: "api/login",
       method: "POST",
-      params: {
+      data: {
         email,
         password,
       },
@@ -68,7 +68,9 @@ export default function LoginTemplate(): JSX.Element {
               isRequired={true}
               labelName={"メールアドレス"}
               placeholder={"入力してください"}
-              onChange={onChangeMailForm}
+              onChange={() => {
+                onChangeMailForm;
+              }}
             ></CustomForm>
             <Box height={"1rem"} />
             <CustomForm
@@ -82,6 +84,7 @@ export default function LoginTemplate(): JSX.Element {
 
           <CardFooter>
             <CustomButton
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClickHandler={onClickHandler}
               label={"ログイン"}
             ></CustomButton>

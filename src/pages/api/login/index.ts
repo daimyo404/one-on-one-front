@@ -8,16 +8,19 @@ import { initializeApp } from "firebase/app";
 // TODO: 実行時エラーになるのでコメントアウト
 // import { getAnalytics } from "firebase/analytics";
 
-type Data = {
+type Response = {
   result: boolean;
 };
 
-// TODO: POSTで受けるようにする
 export default async function handler(
-  req: Pick<NextApiRequest, "body">,
-  res: Pick<NextApiResponse<Data>, "status">
-  /* eslint @typescript-eslint/explicit-function-return-type: 0 */
+  req: Pick<NextApiRequest, "body" | "method">,
+  res: Pick<NextApiResponse<Response>, "status">
 ) {
+  if (req.method !== "POST") {
+    return res.status(500).json({ result: false });
+  }
+  // TODO: bodyがanyなのでせめてobjectにキャストしたい...
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { email, password } = req.body;
 
   const firebaseConfig = {
@@ -37,13 +40,12 @@ export default async function handler(
 
   const auth = getAuth();
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   await signInWithEmailAndPassword(auth, email, password)
     .then((e: UserCredential) => {
-      console.log(e.user.getIdToken());
       return res.status(200).json({ result: true });
     })
     .catch(() => {
-      console.log("エラー?");
-      return res.status(500).json({ result: false });
+      return res.status(401).json({ result: false });
     });
 }

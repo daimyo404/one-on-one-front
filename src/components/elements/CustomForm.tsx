@@ -5,7 +5,7 @@ type Props = {
   readonly isRequired: boolean;
   readonly labelName: string;
   readonly placeholder: string;
-  readonly onChange: () => {};
+  readonly onChange: (value: string) => void;
 };
 
 export default function CustomForm(props: Props): JSX.Element {
@@ -18,7 +18,7 @@ export default function CustomForm(props: Props): JSX.Element {
         <Input
           placeholder={placeholder}
           width={inputWidth}
-          onChange={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             onChange(e.target.value);
           }}
         />

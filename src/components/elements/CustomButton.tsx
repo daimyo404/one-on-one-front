@@ -1,7 +1,7 @@
 import { Button } from "@chakra-ui/react";
 
 type Props = {
-  readonly onClickHandler: () => {};
+  readonly onClickHandler: () => void;
   readonly label: string;
 };
 
