@@ -4,17 +4,25 @@ import { initializeApp } from "firebase/app";
 // TODO: 実行時エラーになるのでコメントアウト
 // import { getAnalytics } from "firebase/analytics";
 
-type Data = {
+// TODO: スネークケースとキャメルの相互変換Typeを作りたい
+type NomalResponse = {
   result: boolean;
+};
+
+type ErrorResponse = {
+  result: boolean;
+  errorMessage: string;
 };
 
 // TODO: POSTで受けるようにする
 export default async function handler(
   req: Pick<NextApiRequest, "query">,
-  res: Pick<NextApiResponse<Data>, "status">
+  res: Pick<NextApiResponse<NomalResponse | ErrorResponse>, "status" | "send">
   /* eslint @typescript-eslint/explicit-function-return-type: 0 */
 ) {
   const { email, password } = req.body;
+  const send = res.send;
+  console.log(send);
 
   console.log("email");
   console.log(email);
@@ -41,6 +49,9 @@ export default async function handler(
       return res.status(200).json({ result: true });
     })
     .catch(() => {
-      return res.status(500).json({ result: false });
+      return res.status(500).json({
+        result: false,
+        errorMessage: "エラーですよ",
+      });
     });
 }

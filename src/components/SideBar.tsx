@@ -1,5 +1,4 @@
 import { Box, Heading } from "@chakra-ui/react";
-import { useEntireContext } from "context/Context";
 import ListIcon from "@mui/icons-material/List";
 
 export default function SideBar(): JSX.Element {

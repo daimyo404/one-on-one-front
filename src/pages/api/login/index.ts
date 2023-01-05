@@ -14,10 +14,10 @@ type Response = {
 
 export default async function handler(
   req: Pick<NextApiRequest, "body" | "method">,
-  res: Pick<NextApiResponse<Response>, "status">
+  res: Pick<NextApiResponse<Response>, "status" | "statusMessage">
 ) {
   if (req.method !== "POST") {
-    return res.status(500).json({ result: false });
+    return res.status(400).json({ result: false }).statusMessage("テスト");
   }
   // TODO: bodyがanyなのでせめてobjectにキャストしたい...
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

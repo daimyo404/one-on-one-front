@@ -1,5 +1,13 @@
 import { Heading } from "@chakra-ui/layout";
-import { Box, CardBody, CardFooter, Image, Stack } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertIcon,
+  Box,
+  CardBody,
+  CardFooter,
+  Image,
+  Stack,
+} from "@chakra-ui/react";
 import { Card } from "@chakra-ui/react";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import CustomForm from "../elements/CustomForm";
@@ -10,6 +18,8 @@ import { useEntireContext } from "context/Context";
 export default function RegisterTemplate(): JSX.Element {
   const { email, setEmail } = useEntireContext();
   const { password, setPassword } = useEntireContext();
+  const { errorVisibleOrHidden, setErrorVisibleOrHidden } = useEntireContext();
+  const { errorMessage, setErrorMessage } = useEntireContext();
 
   const onChangeMailForm = (value: string): void => {
     setEmail(value);
@@ -19,8 +29,9 @@ export default function RegisterTemplate(): JSX.Element {
     setPassword(value);
   };
 
-  // TODO: 処理切り出し
+  // TODO: 処理切り出したい
   const onClickHandler = async (): Promise<void> => {
+    setErrorVisibleOrHidden("hidden");
     const options: Pick<AxiosRequestConfig, "url" | "method" | "data"> = {
       url: "api/register",
       method: "POST",
@@ -30,12 +41,18 @@ export default function RegisterTemplate(): JSX.Element {
       },
     };
 
+    type Data = {
+      message: string;
+    };
+
     await axios(options)
       .then(() => {
         return router.push("/");
       })
-      .catch((e: AxiosError) => {
-        throw Error(e.message);
+      .catch((e: AxiosError<Data>) => {
+        console.log(e.response);
+        setErrorMessage(e.response ? e.response.data.message : "");
+        setErrorVisibleOrHidden("visible");
       });
   };
 
@@ -46,6 +63,10 @@ export default function RegisterTemplate(): JSX.Element {
       height={"100vh"}
       backgroundColor={"#E2EDF6"}
     >
+      <Alert status="error" visibility={errorVisibleOrHidden}>
+        <AlertIcon />
+        {errorMessage}
+      </Alert>
       <Card
         direction={{ base: "column", sm: "row" }}
         overflow="hidden"

@@ -1,12 +1,16 @@
 import React, { createContext, useContext, useState } from "react";
 
+type DisplayType = "visible" | "hidden";
+
 type EntireContextType = {
   email: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   password: string;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
-  isDisplayError: boolean;
-  setIsDisplayError: React.Dispatch<React.SetStateAction<boolean>>;
+  errorVisibleOrHidden: DisplayType;
+  setErrorVisibleOrHidden: React.Dispatch<React.SetStateAction<DisplayType>>;
+  errorMessage: string;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const EntireContext = createContext<EntireContextType>({
@@ -18,8 +22,12 @@ export const EntireContext = createContext<EntireContextType>({
   setPassword: () => {
     return undefined;
   },
-  isDisplayError: false,
-  setIsDisplayError: () => {
+  errorVisibleOrHidden: "hidden",
+  setErrorVisibleOrHidden: () => {
+    return undefined;
+  },
+  errorMessage: "",
+  setErrorMessage: () => {
     return undefined;
   },
 });
@@ -31,10 +39,12 @@ export const useEntireContext = () => {
 export const EntireContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  // NOTE: Login state
+  // NOTE: Login screen state
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [isDisplayError, setIsDisplayError] = useState<boolean>(false);
+  const [errorVisibleOrHidden, setErrorVisibleOrHidden] =
+    useState<DisplayType>("hidden");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   return (
     <EntireContext.Provider
@@ -43,8 +53,10 @@ export const EntireContextProvider: React.FC<{ children: React.ReactNode }> = ({
         setEmail,
         password,
         setPassword,
-        isDisplayError,
-        setIsDisplayError,
+        errorVisibleOrHidden,
+        setErrorVisibleOrHidden,
+        errorMessage,
+        setErrorMessage,
       }}
     >
       {children}
