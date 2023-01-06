@@ -41,17 +41,17 @@ export default function RegisterTemplate(): JSX.Element {
       },
     };
 
-    type Data = {
-      message: string;
+    type ErrorResponse = {
+      errorMessage: string;
     };
 
     await axios(options)
       .then(() => {
         return router.push("/");
       })
-      .catch((e: AxiosError<Data>) => {
+      .catch((e: AxiosError<ErrorResponse>) => {
         console.log(e.response);
-        setErrorMessage(e.response ? e.response.data.message : "");
+        setErrorMessage(e.response ? e.response.data.errorMessage : "");
         setErrorVisibleOrHidden("visible");
       });
   };
