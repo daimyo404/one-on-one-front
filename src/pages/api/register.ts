@@ -5,27 +5,22 @@ import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 
 // TODO: スネークケースとキャメルの相互変換Typeを作りたい
-type NomalResponse = {
-  result: boolean;
-};
-
 type ErrorResponse = {
-  result: boolean;
   errorMessage: string;
 };
 
 // TODO: POSTで受けるようにする
 export default async function handler(
-  req: Pick<NextApiRequest, "query">,
-  res: Pick<NextApiResponse<NomalResponse | ErrorResponse>, "status" | "send">
+  req: Pick<NextApiRequest, "method" | "body">,
+  res: Pick<NextApiResponse<ErrorResponse>, "status">
   /* eslint @typescript-eslint/explicit-function-return-type: 0 */
 ) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ errorMessage: "システムエラーです。" });
+  }
+  // TODO: bodyがanyなのでせめてobjectにキャストしたい...
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { email, password } = req.body;
-  const send = res.send;
-  console.log(send);
-
-  console.log("email");
-  console.log(email);
 
   const firebaseConfig = {
     apiKey: process.env.API_KEY,
@@ -44,14 +39,14 @@ export default async function handler(
 
   const auth = getAuth();
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   await createUserWithEmailAndPassword(auth, email, password)
     .then(() => {
-      return res.status(200).json({ result: true });
+      return res.status(200);
     })
     .catch(() => {
-      return res.status(500).json({
-        result: false,
-        errorMessage: "エラーですよ",
+      return res.status(401).json({
+        errorMessage: "メールアドレスまたはパスワードが誤っています。",
       });
     });
 }

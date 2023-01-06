@@ -8,16 +8,17 @@ import { initializeApp } from "firebase/app";
 // TODO: 実行時エラーになるのでコメントアウト
 // import { getAnalytics } from "firebase/analytics";
 
-type Response = {
-  result: boolean;
+// TODO: スネークケースとキャメルの相互変換Typeを作りたい
+type ErrorResponse = {
+  errorMessage: string;
 };
 
 export default async function handler(
-  req: Pick<NextApiRequest, "body" | "method">,
-  res: Pick<NextApiResponse<Response>, "status" | "statusMessage">
+  req: Pick<NextApiRequest, "method" | "body">,
+  res: Pick<NextApiResponse<ErrorResponse>, "status" | "statusMessage">
 ) {
   if (req.method !== "POST") {
-    return res.status(400).json({ result: false }).statusMessage("テスト");
+    return res.status(400).json({ errorMessage: "システムエラーです。" });
   }
   // TODO: bodyがanyなのでせめてobjectにキャストしたい...
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -43,9 +44,11 @@ export default async function handler(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   await signInWithEmailAndPassword(auth, email, password)
     .then((e: UserCredential) => {
-      return res.status(200).json({ result: true });
+      return res.status(200);
     })
     .catch(() => {
-      return res.status(401).json({ result: false });
+      return res.status(401).json({
+        errorMessage: "メールアドレスまたはパスワードが誤っています。",
+      });
     });
 }
